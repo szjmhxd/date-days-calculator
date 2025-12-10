@@ -458,22 +458,26 @@
         <div class="input-group" style="margin-bottom: 25px;">
             <label for="start-date" style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">请选择起始日期：</label>
             <div style="position: relative;">
-                <input type="date" id="start-date" max="" style="width: 100%; padding: 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit; transition: all 0.3s ease;">
+                <input type="date" id="start-date" max="" style="width: 100%; height: 50px; padding: 0 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit; transition: all 0.3s ease; box-sizing: border-box;">
             </div>
         </div>
         
         <!-- 默认日期选择区域 - 高度统一 -->
-        <div class="default-date-section" style="margin-bottom: 25px;">
-            <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">快速选择默认日期：</label>
-            <div style="display: flex; gap: 10px; align-items: stretch;">
-                <select id="default-date-select" style="flex: 1; padding: 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit;"></select>
-                <button id="apply-default-btn" style="padding: 0 24px; background: var(--default-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px;">应用</button>
-                <a href="settings.html" style="padding: 0 24px; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; text-decoration: none;">+ 新增</a>
+        <div style="margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label style="font-weight: 600; color: var(--title-color); margin: 0;">快速选择默认日期：</label>
+            </div>
+            <div class="default-date-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <select id="default-date-select" style="flex: 1; min-width: 200px; height: 50px; padding: 0 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit; box-sizing: border-box;"></select>
+                <div class="default-date-buttons" style="display: flex; gap: 10px; flex: 1; min-width: 200px;">
+                    <button id="apply-default-btn" style="flex: 1; height: 50px; padding: 0 24px; background: var(--default-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; box-sizing: border-box;">应用</button>
+                    <a href="settings.html" style="flex: 1; height: 50px; padding: 0 24px; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-sizing: border-box;">+ 新增</a>
+                </div>
             </div>
         </div>
         
         <!-- 计算按钮 -->
-        <button id="calculate-btn" style="width: 100%; padding: 16px; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-bottom: 25px;">计算天数</button>
+        <button id="calculate-btn" style="width: 100%; height: 50px; padding: 0; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-bottom: 25px; box-sizing: border-box;">计算天数</button>
         
         <!-- 结果显示区域 - 填充默认文字 -->
         <div id="result" class="result" style="margin-top: 0; padding: 20px; border-radius: 10px; font-size: 1.2rem; text-align: center; font-weight: 600; transition: all 0.3s ease; animation: slideIn 0.3s ease-in-out; background: var(--result-gradient); color: #2e7d32; border: 2px solid #81c784;">
