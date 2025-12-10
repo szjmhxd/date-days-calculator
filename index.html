@@ -596,7 +596,7 @@
 
             // 显示结果
             const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `从 ${startDateInput.value} 到现在已经过了 <strong>${dayDiff}</strong> 天。`;
+            resultDiv.innerHTML = `今天是 ${startDateInput.value} 的第 <strong>${dayDiff}</strong> 天。`;
             resultDiv.style.background = 'var(--result-gradient)';
             resultDiv.style.color = '#2e7d32';
             resultDiv.style.border = '2px solid #81c784';
@@ -621,7 +621,7 @@
                 const formattedDate = targetDate.toISOString().split('T')[0];
                 // 添加到结果HTML
                 resultHTML += `<div style="margin: 10px 0; padding: 18px; background: var(--special-card-gradient); border-radius: 10px; border: 2px solid #90caf9; transition: all 0.3s ease; font-weight: 500;">
-                    从 ${startDate.toISOString().split('T')[0]} 开始经过 ${day} 天是：<strong>${formattedDate}</strong>
+                     ${document.getElementById('start-date').value} 的第 ${day} 天是：<strong>${formattedDate}</strong>
                 </div>`;
             });
 
