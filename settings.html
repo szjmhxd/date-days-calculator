@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天数计算器 - 设置</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* CSS变量定义 - 默认主题 */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --default-btn-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --calculate-btn-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --result-gradient: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            --special-card-gradient: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            --container-bg: white;
+            --text-color: #333;
+            --title-color: #4a5568;
+            --border-color: #e2e8f0;
+            --input-bg: #fafafa;
+        }
+        
+        /* 宝石蓝主题 */
+        :root[data-theme="blue"] {
+            --bg-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            --default-btn-gradient: linear-gradient(135deg, #2196f3 0%, #0b7dda 100%);
+            --calculate-btn-gradient: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+            --result-gradient: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+            --special-card-gradient: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+        
+        .container {
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--title-color);
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        h2 {
+            color: var(--title-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .back-btn {
+            padding: 12px 24px;
+            background: var(--default-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 设置区域 */
+        .settings-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: var(--title-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* 默认日期管理 */
+        .default-dates-section {
+            margin-bottom: 30px;
+        }
+        
+        .dates-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .add-date-btn {
+            padding: 10px 20px;
+            background: var(--default-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .dates-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .date-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .date-row:hover {
+            border-color: #667eea;
+            background: white;
+        }
+        
+        .date-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            color: var(--text-color);
+        }
+        
+        .date-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .remove-date-btn {
+            padding: 12px 18px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        /* 保存按钮 */
+        .save-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .save-btn {
+            padding: 16px 32px;
+            background: var(--calculate-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+        
+        /* 保存提示 */
+        .save-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .save-message.success {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            color: #2e7d32;
+            opacity: 1;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .date-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .remove-date-btn {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>天数计算器 - 设置</h1>
+        
+        <!-- 返回按钮 -->
+        <div class="nav-buttons">
+            <a href="index.html" class="back-btn">
+                ← 返回计算器
+            </a>
+        </div>
+        
+        <!-- 默认日期设置 -->
+        <div class="default-dates-section">
+            <div class="dates-header">
+                <h2>默认日期设置</h2>
+                <button id="add-date-btn" class="add-date-btn">+ 添加默认日期</button>
+            </div>
+            
+            <div id="dates-list" class="dates-list">
+                <!-- 默认日期行将通过JavaScript动态生成 -->
+            </div>
+            
+            <div class="save-section">
+                <button id="save-btn" class="save-btn">保存设置</button>
+                <div id="save-message" class="save-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 从本地存储加载默认日期
+        function loadDefaultDates() {
+            const savedDates = localStorage.getItem('defaultDates');
+            return savedDates ? JSON.parse(savedDates) : ['2001-07-12'];
+        }
+        
+        // 保存默认日期到本地存储
+        function saveDefaultDates(dates) {
+            localStorage.setItem('defaultDates', JSON.stringify(dates));
+        }
+        
+        // 渲染默认日期列表
+        function renderDatesList() {
+            const datesList = document.getElementById('dates-list');
+            const defaultDates = loadDefaultDates();
+            
+            datesList.innerHTML = '';
+            
+            defaultDates.forEach(date => {
+                const dateRow = document.createElement('div');
+                dateRow.className = 'date-row';
+                
+                dateRow.innerHTML = `
+                    <input type="date" class="date-input" value="${date}" max="${new Date().toISOString().split('T')[0]}">
+                    <button class="remove-date-btn" title="删除日期">×</button>
+                `;
+                
+                datesList.appendChild(dateRow);
+            });
+            
+            // 添加删除按钮事件
+            addDeleteEventListeners();
+        }
+        
+        // 添加删除按钮事件监听
+        function addDeleteEventListeners() {
+            const removeBtns = document.querySelectorAll('.remove-date-btn');
+            
+            removeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const datesList = document.getElementById('dates-list');
+                    // 确保至少保留一个日期
+                    if (datesList.children.length > 1) {
+                        this.parentElement.remove();
+                    }
+                });
+            });
+        }
+        
+        // 添加新日期行
+        function addDateRow() {
+            const datesList = document.getElementById('dates-list');
+            const newRow = document.createElement('div');
+            newRow.className = 'date-row';
+            
+            newRow.innerHTML = `
+                <input type="date" class="date-input" max="${new Date().toISOString().split('T')[0]}">
+                <button class="remove-date-btn" title="删除日期">×</button>
+            `;
+            
+            datesList.appendChild(newRow);
+            
+            // 添加删除按钮事件
+            const removeBtn = newRow.querySelector('.remove-date-btn');
+            removeBtn.addEventListener('click', function() {
+                const datesList = document.getElementById('dates-list');
+                if (datesList.children.length > 1) {
+                    newRow.remove();
+                }
+            });
+        }
+        
+        // 保存设置
+        function saveSettings() {
+            const dateInputs = document.querySelectorAll('.date-input');
+            const defaultDates = [];
+            
+            dateInputs.forEach(input => {
+                if (input.value) {
+                    defaultDates.push(input.value);
+                }
+            });
+            
+            // 确保至少保存一个日期
+            if (defaultDates.length === 0) {
+                alert('请至少保留一个默认日期！');
+                return;
+            }
+            
+            // 保存到本地存储
+            saveDefaultDates(defaultDates);
+            
+            // 显示保存成功消息
+            const saveMessage = document.getElementById('save-message');
+            saveMessage.textContent = '设置已成功保存！';
+            saveMessage.className = 'save-message success';
+            
+            // 3秒后隐藏消息
+            setTimeout(() => {
+                saveMessage.className = 'save-message';
+            }, 3000);
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 渲染默认日期列表
+            renderDatesList();
+            
+            // 添加日期按钮事件
+            document.getElementById('add-date-btn').addEventListener('click', addDateRow);
+            
+            // 保存按钮事件
+            document.getElementById('save-btn').addEventListener('click', saveSettings);
+        });
+    </script>
+</body>
+</html>

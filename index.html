@@ -301,6 +301,69 @@
             font-weight: 700;
         }
         
+        /* 悬浮主题切换按钮样式 */
+        .theme-toggle-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        /* 主切换按钮样式 */
+        .theme-toggle-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--calculate-btn-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+        
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 主题菜单样式 */
+        .theme-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: var(--container-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* 主题菜单展开状态 */
+        .theme-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* 主题菜单标题 */
+        .theme-menu-title {
+            font-weight: 600;
+            color: var(--title-color);
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
         /* 响应式设计 */
         @media (max-width: 600px) {
             body {
@@ -323,49 +386,176 @@
                 padding: 14px;
                 font-size: 15px;
             }
+            
+            /* 调整悬浮按钮位置 */
+            .theme-toggle-container {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .theme-toggle-btn {
+                width: 45px;
+                height: 45px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>天数计算器</h1>
-        <!-- 主题选择区域 -->
-        <div class="theme-selector" style="margin-bottom: 25px;">
-            <label style="margin-bottom: 12px;">选择主题：</label>
-            <div class="theme-colors" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="theme-btn" data-theme="default" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%;" title="默认紫"></button>
-                <button class="theme-btn" data-theme="white" style="width: 40px; height: 40px; padding: 0; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 50%;" title="简洁白"></button>
-                <button class="theme-btn" data-theme="pink" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); border-radius: 50%;" title="少女粉"></button>
-                <button class="theme-btn" data-theme="black" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); border-radius: 50%;" title="主题黑"></button>
-                <button class="theme-btn" data-theme="red" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #f12711 0%, #f5af19 100%); border-radius: 50%;" title="高能红"></button>
-                <button class="theme-btn" data-theme="yellow" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%); border-radius: 50%;" title="咸蛋黄"></button>
-                <button class="theme-btn" data-theme="green" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 50%;" title="早苗绿"></button>
-                <button class="theme-btn" data-theme="blue" style="width: 40px; height: 40px; padding: 0; background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border-radius: 50%;" title="宝石蓝"></button>
+        <!-- 右下角悬浮功能按钮 -->
+        <div class="theme-toggle-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px;">
+            <!-- 主题切换按钮 -->
+            <button id="theme-toggle-btn" class="theme-toggle-btn" style="width: 45px; height: 45px; border-radius: 50%; background: var(--default-btn-gradient); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+            
+            <!-- 设置按钮 -->
+            <a href="settings.html" class="theme-toggle-btn" style="width: 45px; height: 45px; border-radius: 50%; background: var(--default-btn-gradient); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </a>
+            
+            <!-- 特殊天数设置按钮 -->
+            <a href="special-days.html" class="theme-toggle-btn" style="width: 45px; height: 45px; border-radius: 50%; background: var(--default-btn-gradient); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+            </a>
+            
+            <!-- 主题选择菜单 -->
+            <div id="theme-menu" class="theme-menu" style="position: absolute; bottom: 150px; right: 0; background: var(--container-bg); padding: 20px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; border: 1px solid var(--border-color);">
+                <div class="theme-menu-title" style="font-weight: 600; color: var(--title-color); text-align: center; margin-bottom: 10px; font-size: 14px;">选择主题</div>
+                <div class="theme-colors" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
+                    <button class="theme-btn" data-theme="default" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%;" title="默认紫"></button>
+                    <button class="theme-btn" data-theme="white" style="width: 35px; height: 35px; padding: 0; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 50%;" title="简洁白"></button>
+                    <button class="theme-btn" data-theme="pink" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); border-radius: 50%;" title="少女粉"></button>
+                    <button class="theme-btn" data-theme="black" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); border-radius: 50%;" title="主题黑"></button>
+                    <button class="theme-btn" data-theme="red" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #f12711 0%, #f5af19 100%); border-radius: 50%;" title="高能红"></button>
+                    <button class="theme-btn" data-theme="yellow" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%); border-radius: 50%;" title="咸蛋黄"></button>
+                    <button class="theme-btn" data-theme="green" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 50%;" title="早苗绿"></button>
+                    <button class="theme-btn" data-theme="blue" style="width: 35px; height: 35px; padding: 0; background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border-radius: 50%;" title="宝石蓝"></button>
+                </div>
             </div>
         </div>
 
-        <div class="input-group">
-            <label for="start-date">请选择起始日期：</label>
-            <input type="date" id="start-date" max="">
+        <!-- 起始日期选择 -->
+        <div class="input-group" style="margin-bottom: 25px;">
+            <label for="start-date" style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">请选择起始日期：</label>
+            <div style="position: relative;">
+                <input type="date" id="start-date" max="" style="width: 100%; padding: 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit; transition: all 0.3s ease;">
+            </div>
         </div>
-        <button id="set-default-btn" style="margin-bottom: 10px; background-color: #2196F3;">设置默认日期 (2001-07-12)</button>
-        <button id="calculate-btn">计算天数</button>
-        <div id="result" class="result"></div>
-        <div id="special-dates" style="margin-top: 20px;">
+        
+        <!-- 默认日期选择区域 - 高度统一 -->
+        <div class="default-date-section" style="margin-bottom: 25px;">
+            <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">快速选择默认日期：</label>
+            <div style="display: flex; gap: 10px; align-items: stretch;">
+                <select id="default-date-select" style="flex: 1; padding: 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit;"></select>
+                <button id="apply-default-btn" style="padding: 0 24px; background: var(--default-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px;">应用</button>
+                <a href="settings.html" style="padding: 0 24px; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; text-decoration: none;">+ 新增</a>
+            </div>
+        </div>
+        
+        <!-- 计算按钮 -->
+        <button id="calculate-btn" style="width: 100%; padding: 16px; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-bottom: 25px;">计算天数</button>
+        
+        <!-- 结果显示区域 - 填充默认文字 -->
+        <div id="result" class="result" style="margin-top: 0; padding: 20px; border-radius: 10px; font-size: 1.2rem; text-align: center; font-weight: 600; transition: all 0.3s ease; animation: slideIn 0.3s ease-in-out; background: var(--result-gradient); color: #2e7d32; border: 2px solid #81c784;">
+            本年已过 <span id="days-passed"></span> 天
+        </div>
+        <!-- 特殊日期计算 -->
+        <div id="special-dates" style="margin-top: 35px; padding-top: 25px; border-top: 2px solid var(--border-color);">
             <h3>特殊日期计算</h3>
+            <div style="margin-bottom: 20px; padding: 15px; background: var(--input-bg); border: 2px solid var(--border-color); border-radius: 10px;">
+                <p style="color: var(--text-color); margin-bottom: 10px;">您可以在设置中管理特殊天数，包括添加、删除和修改要计算的天数。</p>
+                <a href="special-days.html" style="display: inline-block; padding: 10px 20px; background: var(--default-btn-gradient); color: white; border: none; border-radius: 6px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                    管理特殊天数
+                </a>
+            </div>
+            
             <div id="special-dates-result"></div>
         </div>
     </div>
 
     <script>
-        // 设置日期输入框的最大日期为今天
-        document.getElementById('start-date').max = new Date().toISOString().split('T')[0];
-
-        // 设置默认日期按钮点击事件
-        document.getElementById('set-default-btn').addEventListener('click', function() {
-            // 设置起始日期为2001-07-12
-            document.getElementById('start-date').value = '2001-07-12';
-        });
+        // 从本地存储加载默认日期
+        function loadDefaultDates() {
+            const savedDates = localStorage.getItem('defaultDates');
+            return savedDates ? JSON.parse(savedDates) : ['2001-07-12'];
+        }
+        
+        // 动态生成默认日期下拉菜单
+        function generateDefaultDateOptions() {
+            const selectElement = document.getElementById('default-date-select');
+            const defaultDates = loadDefaultDates();
+            
+            // 清空现有选项
+            selectElement.innerHTML = '';
+            
+            // 添加选项
+            defaultDates.forEach(date => {
+                const option = document.createElement('option');
+                option.value = date;
+                option.textContent = date;
+                selectElement.appendChild(option);
+            });
+        }
+        
+        // 从本地存储加载特殊天数
+        function loadSpecialDays() {
+            const savedDays = localStorage.getItem('specialDays');
+            return savedDays ? JSON.parse(savedDays) : [100, 1000, 8888, 10000, 20000];
+        }
+        
+        // 应用默认日期
+        function applyDefaultDate() {
+            const selectElement = document.getElementById('default-date-select');
+            const startDateInput = document.getElementById('start-date');
+            startDateInput.value = selectElement.value;
+        }
+        
+        // 计算本年已过天数
+        function calculateDaysPassedThisYear() {
+            const currentDate = new Date();
+            const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
+            const timeDiff = currentDate - startOfYear;
+            const daysPassed = Math.floor(timeDiff / (1000 * 3600 * 24)) + 1;
+            document.getElementById('days-passed').textContent = daysPassed;
+        }
+        
+        // 初始化函数
+        function init() {
+            // 设置日期输入框的最大日期为今天
+            document.getElementById('start-date').max = new Date().toISOString().split('T')[0];
+            
+            // 生成默认日期下拉菜单
+            generateDefaultDateOptions();
+            
+            // 应用默认日期按钮点击事件
+            document.getElementById('apply-default-btn').addEventListener('click', applyDefaultDate);
+            
+            // 计算本年已过天数
+            calculateDaysPassedThisYear();
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', init);
 
         // 计算按钮点击事件
         document.getElementById('calculate-btn').addEventListener('click', function() {
@@ -376,8 +566,10 @@
 
             // 验证日期输入
             if (isNaN(startDate.getTime())) {
-                document.getElementById('result').textContent = '请选择一个有效的日期！';
-                document.getElementById('result').classList.add('error');
+                document.getElementById('result').innerHTML = '请选择一个有效的日期！';
+                document.getElementById('result').style.background = 'linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%)';
+                document.getElementById('result').style.color = '#c62828';
+                document.getElementById('result').style.border = '2px solid #ef5350';
                 // 清空特殊日期结果
                 document.getElementById('special-dates-result').innerHTML = '';
                 return;
@@ -393,8 +585,10 @@
 
             // 显示结果
             const resultDiv = document.getElementById('result');
-            resultDiv.textContent = `从 ${startDateInput.value} 到现在已经过了 ${dayDiff} 天。`;
-            resultDiv.classList.remove('error');
+            resultDiv.innerHTML = `从 ${startDateInput.value} 到现在已经过了 <strong>${dayDiff}</strong> 天。`;
+            resultDiv.style.background = 'var(--result-gradient)';
+            resultDiv.style.color = '#2e7d32';
+            resultDiv.style.border = '2px solid #81c784';
 
             // 计算特殊日期
             calculateSpecialDates(startDate);
@@ -402,10 +596,10 @@
 
         // 计算特殊日期的函数
         function calculateSpecialDates(startDate) {
-            // 定义要计算的特殊天数
-            const specialDays = [100, 1000, 8888, 10000];
+            // 获取特殊天数
+            const specialDays = loadSpecialDays();
             let resultHTML = '';
-
+            
             // 遍历计算每个特殊日期
             specialDays.forEach(day => {
                 // 创建起始日期的副本，避免修改原日期
@@ -415,7 +609,7 @@
                 // 格式化日期为YYYY-MM-DD
                 const formattedDate = targetDate.toISOString().split('T')[0];
                 // 添加到结果HTML
-                resultHTML += `<div>
+                resultHTML += `<div style="margin: 10px 0; padding: 18px; background: var(--special-card-gradient); border-radius: 10px; border: 2px solid #90caf9; transition: all 0.3s ease; font-weight: 500;">
                     从 ${startDate.toISOString().split('T')[0]} 开始经过 ${day} 天是：<strong>${formattedDate}</strong>
                 </div>`;
             });
@@ -426,8 +620,25 @@
 
         // 主题切换功能
         document.addEventListener('DOMContentLoaded', function() {
-            // 获取所有主题按钮
+            // 获取主题切换按钮和菜单
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const themeMenu = document.getElementById('theme-menu');
             const themeBtns = document.querySelectorAll('.theme-btn');
+            
+            // 设置默认主题为宝石蓝
+            document.documentElement.setAttribute('data-theme', 'blue');
+            
+            // 主题切换按钮点击事件 - 展开/收起菜单
+            themeToggleBtn.addEventListener('click', function() {
+                themeMenu.classList.toggle('show');
+            });
+            
+            // 点击页面其他位置关闭菜单
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.theme-toggle-container')) {
+                    themeMenu.classList.remove('show');
+                }
+            });
             
             // 为每个主题按钮添加点击事件
             themeBtns.forEach(btn => {
@@ -436,6 +647,9 @@
                     const theme = this.getAttribute('data-theme');
                     // 设置根元素的data-theme属性
                     document.documentElement.setAttribute('data-theme', theme);
+                    
+                    // 关闭主题菜单
+                    themeMenu.classList.remove('show');
                     
                     // 移除所有按钮的选中状态
                     themeBtns.forEach(b => {
