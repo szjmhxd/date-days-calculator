@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天数计算器</title>
+    <!-- 引入日期选择器CSS -->
+    <link rel="stylesheet" href="202303100952/css/base.css">
+    <link rel="stylesheet" href="202303100952/css/datepicker.css">
+    <link rel="stylesheet" href="202303100952/css/iconfont.css">
+    
     <style>
         /* 全局样式 */
         * {
@@ -464,8 +469,9 @@
         <!-- 起始日期选择 -->
         <div class="input-group" style="margin-bottom: 25px;">
             <label for="start-date" style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">请选择起始日期：</label>
-            <div style="position: relative;">
-                <input type="date" id="start-date" max="" style="width: 100%; height: 50px; padding: 0 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit; transition: all 0.3s ease; box-sizing: border-box;">
+            <div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day" style="width: 100%;">
+                <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+                <input type="text" id="start-date" autocomplete="off" placeholder="选择日期" class="c-datepicker-data-input only-date" value="">
             </div>
         </div>
         
@@ -503,6 +509,11 @@
             <div id="special-dates-result"></div>
         </div>
     </div>
+
+    <!-- 引入jQuery和日期选择器JS -->
+    <script src="202303100952/js/plugins/jquery.js"></script>
+    <script src="202303100952/js/plugins/moment.min.js"></script>
+    <script src="202303100952/js/datepicker.all.js"></script>
 
     <script>
         // 从本地存储加载默认日期
@@ -552,9 +563,6 @@
         
         // 初始化函数
         function init() {
-            // 设置日期输入框的最大日期为今天
-            document.getElementById('start-date').max = new Date().toISOString().split('T')[0];
-            
             // 生成默认日期下拉菜单
             generateDefaultDateOptions();
             
@@ -563,6 +571,22 @@
             
             // 计算本年已过天数
             calculateDaysPassedThisYear();
+            
+            // 初始化日期选择器
+            $('.J-datepicker-day').datePicker({
+                hasShortcut: true,
+                format: 'YYYY-MM-DD',
+                shortcutOptions: [{
+                    name: '今天',
+                    day: '0'
+                }, {
+                    name: '昨天',
+                    day: '-1'
+                }, {
+                    name: '一周前',
+                    day: '-7'
+                }]
+            });
         }
         
         // 页面加载时初始化
