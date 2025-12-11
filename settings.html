@@ -149,11 +149,32 @@
             border: 2px solid var(--border-color);
             border-radius: 10px;
             transition: all 0.3s ease;
+            cursor: move;
         }
         
         .date-row:hover {
             border-color: #667eea;
             background: white;
+        }
+        
+        /* 拖拽中的日期行样式 */
+        .date-row.dragging {
+            opacity: 0.5;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 拖拽手柄样式 */
+        .drag-handle {
+            cursor: move;
+            user-select: none;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+        
+        /* 拖拽手柄悬停样式 */
+        .drag-handle:hover {
+            color: #667eea;
         }
         
         .date-input {
@@ -249,6 +270,11 @@
     </style>
 </head>
 <body>
+    <!-- 引入jQuery和日期选择器CSS -->
+    <link rel="stylesheet" href="202303100952/css/base.css">
+    <link rel="stylesheet" href="202303100952/css/datepicker.css">
+    <link rel="stylesheet" href="202303100952/css/iconfont.css">
+    
     <div class="container">
         <h1>天数计算器 - 设置</h1>
         
@@ -277,6 +303,11 @@
         </div>
     </div>
 
+    <!-- 引入jQuery和日期选择器JS -->
+    <script src="202303100952/js/plugins/jquery.js"></script>
+    <script src="202303100952/js/plugins/moment.min.js"></script>
+    <script src="202303100952/js/datepicker.all.js"></script>
+    
     <script>
         // 从本地存储加载默认日期
         function loadDefaultDates() {
@@ -296,20 +327,115 @@
             
             datesList.innerHTML = '';
             
-            defaultDates.forEach(date => {
+            defaultDates.forEach((date, index) => {
                 const dateRow = document.createElement('div');
                 dateRow.className = 'date-row';
+                dateRow.draggable = true;
+                dateRow.dataset.index = index;
                 
                 dateRow.innerHTML = `
-                    <input type="date" class="date-input" value="${date}" max="${new Date().toISOString().split('T')[0]}">
+                    <div class="drag-handle" style="cursor: move; padding: 0 12px; color: var(--text-color); display: flex; align-items: center;">☰</div>
+                    <div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day" style="flex: 1;">
+                        <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+                        <input type="text" class="date-input c-datepicker-data-input only-date" value="${date}" placeholder="选择日期" autocomplete="off">
+                    </div>
                     <button class="remove-date-btn" title="删除日期">×</button>
                 `;
                 
                 datesList.appendChild(dateRow);
             });
             
+            // 初始化日期选择器
+            initDatePickers();
+            
             // 添加删除按钮事件
             addDeleteEventListeners();
+            
+            // 添加拖拽事件
+            addDragEventListeners();
+        }
+        
+        // 初始化日期选择器
+        function initDatePickers() {
+            $('.J-datepicker-day').datePicker({
+                format: 'YYYY-MM-DD',
+                showOtherMonth: true,
+                minDate: '1900-01-01',
+                maxDate: new Date().toISOString().split('T')[0]
+            });
+        }
+        
+        // 添加拖拽事件监听器
+        function addDragEventListeners() {
+            const datesList = document.getElementById('dates-list');
+            let draggedElement = null;
+            
+            // 拖拽开始事件
+            datesList.addEventListener('dragstart', function(e) {
+                if (e.target.closest('.date-row')) {
+                    draggedElement = e.target.closest('.date-row');
+                    draggedElement.classList.add('dragging');
+                }
+            });
+            
+            // 拖拽结束事件
+            datesList.addEventListener('dragend', function(e) {
+                if (draggedElement) {
+                    draggedElement.classList.remove('dragging');
+                    draggedElement = null;
+                    updateDateIndices();
+                }
+            });
+            
+            // 拖拽经过事件
+            datesList.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                
+                const afterElement = getDragAfterElement(datesList, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                if (draggable) {
+                    if (afterElement == null) {
+                        datesList.appendChild(draggable);
+                    } else {
+                        datesList.insertBefore(draggable, afterElement);
+                    }
+                    // 更新索引
+                    updateDateIndices();
+                }
+            });
+            
+            // 拖拽放置事件
+            datesList.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (draggedElement) {
+                    draggedElement.classList.remove('dragging');
+                    draggedElement = null;
+                }
+            });
+        }
+        
+        // 获取拖拽元素应该插入到哪个元素之后
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.date-row:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+        
+        // 更新所有日期行的索引
+        function updateDateIndices() {
+            const dateRows = document.querySelectorAll('.date-row');
+            dateRows.forEach((row, index) => {
+                row.dataset.index = index;
+            });
         }
         
         // 添加删除按钮事件监听
@@ -332,13 +458,21 @@
             const datesList = document.getElementById('dates-list');
             const newRow = document.createElement('div');
             newRow.className = 'date-row';
+            newRow.draggable = true;
             
             newRow.innerHTML = `
-                <input type="date" class="date-input" max="${new Date().toISOString().split('T')[0]}">
+                <div class="drag-handle" style="cursor: move; padding: 0 12px; color: var(--text-color); display: flex; align-items: center;">☰</div>
+                <div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day" style="flex: 1;">
+                    <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+                    <input type="text" class="date-input c-datepicker-data-input only-date" placeholder="选择日期" autocomplete="off">
+                </div>
                 <button class="remove-date-btn" title="删除日期">×</button>
             `;
             
             datesList.appendChild(newRow);
+            
+            // 初始化新添加的日期选择器
+            initDatePickers();
             
             // 添加删除按钮事件
             const removeBtn = newRow.querySelector('.remove-date-btn');
@@ -346,16 +480,22 @@
                 const datesList = document.getElementById('dates-list');
                 if (datesList.children.length > 1) {
                     newRow.remove();
+                    updateDateIndices();
                 }
             });
+            
+            // 更新日期行索引
+            updateDateIndices();
         }
         
         // 保存设置
         function saveSettings() {
-            const dateInputs = document.querySelectorAll('.date-input');
+            const dateRows = document.querySelectorAll('.date-row');
             const defaultDates = [];
             
-            dateInputs.forEach(input => {
+            // 按照当前DOM顺序读取日期
+            dateRows.forEach(row => {
+                const input = row.querySelector('.date-input');
                 if (input.value) {
                     defaultDates.push(input.value);
                 }
