@@ -5,10 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天数计算器</title>
-    <!-- 引入日期选择器CSS -->
-    <link rel="stylesheet" href="202303100952/css/base.css">
-    <link rel="stylesheet" href="202303100952/css/datepicker.css">
-    <link rel="stylesheet" href="202303100952/css/iconfont.css">
+    
 
     <style>
         /* 全局样式 */
@@ -210,29 +207,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* 默认日期按钮样式 */
-        #set-default-btn {
-            background: var(--default-btn-gradient);
-            color: white;
-            margin-bottom: 15px;
-        }
-
-        #set-default-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        /* 计算按钮样式 */
-        #calculate-btn {
-            background: var(--calculate-btn-gradient);
-            color: white;
-        }
-
-        #calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
-        }
-
         button:active {
             transform: translateY(0);
         }
@@ -309,20 +283,184 @@
             font-weight: 700;
         }
 
+        /* 默认日期选择区域样式 */
+        .default-date-section {
+            margin-bottom: 25px;
+        }
+
+        .default-date-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .default-date-label label {
+            font-weight: 600;
+            color: var(--title-color);
+            margin: 0;
+        }
+
+        .default-date-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #default-date-select {
+            flex: 1;
+            min-width: 200px;
+            height: 50px;
+            padding: 0 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        #default-date-select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: var(--container-bg);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .default-date-buttons {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        #apply-default-btn {
+            flex: 1;
+            height: 50px;
+            padding: 0 24px;
+            background: var(--default-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        #apply-default-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .default-date-buttons a {
+            flex: 1;
+            height: 50px;
+            padding: 0 24px;
+            background: var(--calculate-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .default-date-buttons a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        /* 计算按钮样式 */
+        #calculate-btn {
+            width: 100%;
+            height: 50px;
+            padding: 0;
+            background: var(--calculate-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        #calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        /* 结果显示区域样式 */
+        .result {
+            margin-top: 0 !important;
+        }
+
+        /* 特殊日期计算区域样式 */
+        #special-dates {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* 特殊日期介绍区域样式 */
+        .special-dates-intro {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+        }
+
+        .special-dates-intro p {
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .special-dates-intro a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--default-btn-gradient);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .special-dates-intro a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
         /* 悬浮主题切换按钮样式 */
         .theme-toggle-container {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         /* 主切换按钮样式 */
         .theme-toggle-btn {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            background: var(--calculate-btn-gradient);
+            background: var(--default-btn-gradient);
             color: white;
             border: none;
             cursor: pointer;
@@ -331,7 +469,6 @@
             justify-content: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            margin: 0;
         }
 
         .theme-toggle-btn:hover {
@@ -341,22 +478,15 @@
 
         /* 主题菜单样式 */
         .theme-menu {
-            position: absolute;
-            right: 0;
+            position: fixed;
+            bottom: 200px;
+            right: 20px;
             background: var(--container-bg);
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            min-width: 200px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
+            width: 220px;
             border: 1px solid var(--border-color);
-        }
-
-        /* 主题菜单样式 */
-        .theme-menu {
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
@@ -377,6 +507,62 @@
             text-align: center;
             margin-bottom: 10px;
             font-size: 14px;
+        }
+
+        /* 主题颜色选择区域 */
+        .theme-colors {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* 主题颜色按钮 */
+        .theme-btn {
+            width: 35px;
+            height: 35px;
+            padding: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* 各主题颜色按钮样式 */
+        .theme-btn[data-theme="default"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .theme-btn[data-theme="white"] {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+        }
+
+        .theme-btn[data-theme="pink"] {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .theme-btn[data-theme="black"] {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        .theme-btn[data-theme="red"] {
+            background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);
+        }
+
+        .theme-btn[data-theme="yellow"] {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+        }
+
+        .theme-btn[data-theme="green"] {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .theme-btn[data-theme="blue"] {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
         }
 
         /* 响应式设计 */
@@ -500,49 +686,38 @@
         </div>
 
         <!-- 起始日期选择 -->
-        <div class="input-group" style="margin-bottom: 25px;">
-            <label for="start-date"
-                style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">请选择起始日期：</label>
-            <input type="date" id="start-date" style="width: 100%; padding: 14px 16px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 16px; font-family: inherit; transition: all 0.3s ease; background: var(--input-bg); color: var(--text-color);">
+        <div class="input-group">
+            <label for="start-date">请选择起始日期：</label>
+            <input type="date" id="start-date">
         </div>
 
-        <!-- 默认日期选择区域 - 高度统一 -->
-        <div style="margin-bottom: 25px;">
-            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                <label style="font-weight: 600; color: var(--title-color); margin: 0;">快速选择默认日期：</label>
+        <!-- 默认日期选择区域 -->
+        <div class="default-date-section">
+            <div class="default-date-label">
+                <label>快速选择默认日期：</label>
             </div>
-            <div class="default-date-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <select id="default-date-select"
-                    style="flex: 1; min-width: 200px; height: 50px; padding: 0 16px; border: 2px solid var(--border-color); border-radius: 10px; background: var(--input-bg); color: var(--text-color); font-size: 16px; font-family: inherit; box-sizing: border-box;"></select>
-                <div class="default-date-buttons" style="display: flex; gap: 10px; flex: 1; min-width: 200px;">
-                    <button id="apply-default-btn"
-                        style="flex: 1; height: 50px; padding: 0 24px; background: var(--default-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; box-sizing: border-box;">应用</button>
-                    <a href="settings.html"
-                        style="flex: 1; height: 50px; padding: 0 24px; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-sizing: border-box;">+
-                        新增</a>
+            <div class="default-date-container">
+                <select id="default-date-select"></select>
+                <div class="default-date-buttons">
+                    <button id="apply-default-btn">应用</button>
+                    <a href="settings.html">+ 新增</a>
                 </div>
             </div>
         </div>
 
         <!-- 计算按钮 -->
-        <button id="calculate-btn"
-            style="width: 100%; height: 50px; padding: 0; background: var(--calculate-btn-gradient); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-bottom: 25px; box-sizing: border-box;">计算天数</button>
+        <button id="calculate-btn">计算天数</button>
 
-        <!-- 结果显示区域 - 填充默认文字 -->
-        <div id="result" class="result"
-            style="margin-top: 0; padding: 20px; border-radius: 10px; font-size: 1.2rem; text-align: center; font-weight: 600; transition: all 0.3s ease; animation: slideIn 0.3s ease-in-out; background: var(--result-gradient); color: #2e7d32; border: 2px solid #81c784;">
+        <!-- 结果显示区域 -->
+        <div id="result" class="result">
             本年已过 <span id="days-passed"></span> 天
         </div>
         <!-- 特殊日期计算 -->
-        <div id="special-dates" style="margin-top: 35px; padding-top: 25px; border-top: 2px solid var(--border-color);">
+        <div id="special-dates">
             <h3>特殊日期计算</h3>
-            <div
-                style="margin-bottom: 20px; padding: 15px; background: var(--input-bg); border: 2px solid var(--border-color); border-radius: 10px;">
-                <p style="color: var(--text-color); margin-bottom: 10px;">您可以在设置中管理特殊天数，包括添加、删除和修改要计算的天数。</p>
-                <a href="special-days.html"
-                    style="display: inline-block; padding: 10px 20px; background: var(--default-btn-gradient); color: white; border: none; border-radius: 6px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
-                    管理特殊天数
-                </a>
+            <div class="special-dates-intro">
+                <p>您可以在设置中管理特殊天数，包括添加、删除和修改要计算的天数。</p>
+                <a href="special-days.html">管理特殊天数</a>
             </div>
 
             <div id="special-dates-result"></div>
@@ -610,78 +785,17 @@
         }
 
         // 页面加载时初始化
-        document.addEventListener('DOMContentLoaded', init);
-
-        // 计算按钮点击事件
-        document.getElementById('calculate-btn').addEventListener('click', function () {
-            // 获取用户输入的日期
-            const startDateInput = document.getElementById('start-date');
-            const startDate = new Date(startDateInput.value);
-            const currentDate = new Date();
-
-            // 验证日期输入
-            if (isNaN(startDate.getTime())) {
-                document.getElementById('result').innerHTML = '请选择一个有效的日期！';
-                document.getElementById('result').style.background = 'linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%)';
-                document.getElementById('result').style.color = '#c62828';
-                document.getElementById('result').style.border = '2px solid #ef5350';
-                // 清空特殊日期结果
-                document.getElementById('special-dates-result').innerHTML = '';
-                return;
-            }
-
-            // 移除时间部分，只比较日期
-            startDate.setHours(0, 0, 0, 0);
-            currentDate.setHours(0, 0, 0, 0);
-
-            // 计算毫秒差，然后转换为天数
-            const timeDiff = currentDate - startDate;
-            const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-
-            // 显示结果
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `今天是 ${startDateInput.value} 的第 <strong>${dayDiff}</strong> 天。`;
-            resultDiv.style.background = 'var(--result-gradient)';
-            resultDiv.style.color = '#2e7d32';
-            resultDiv.style.border = '2px solid #81c784';
-
-            // 计算特殊日期
-            calculateSpecialDates(startDate);
-        });
-
-        // 计算特殊日期的函数
-        function calculateSpecialDates(startDate) {
-            // 获取特殊天数
-            const specialDays = loadSpecialDays();
-            let resultHTML = '';
-
-            // 遍历计算每个特殊日期
-            specialDays.forEach(day => {
-                // 创建起始日期的副本，避免修改原日期
-                const targetDate = new Date(startDate);
-                // 增加指定天数
-                targetDate.setDate(targetDate.getDate() + day);
-                // 格式化日期为YYYY-MM-DD
-                const formattedDate = targetDate.toISOString().split('T')[0];
-                // 添加到结果HTML
-                resultHTML += `<div style="margin: 10px 0; padding: 18px; background: var(--special-card-gradient); border-radius: 10px; border: 2px solid #90caf9; transition: all 0.3s ease; font-weight: 500;">
-                     ${document.getElementById('start-date').value} 的第 ${day} 天是：<strong>${formattedDate}</strong>
-                </div>`;
-            });
-
-            // 显示特殊日期结果
-            document.getElementById('special-dates-result').innerHTML = resultHTML;
-        }
-
-        // 主题切换功能
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化功能
+            init();
+            
+            // 设置默认主题为宝石蓝
+            document.documentElement.setAttribute('data-theme', 'blue');
+            
             // 获取主题切换按钮和菜单
             const themeToggleBtn = document.getElementById('theme-toggle-btn');
             const themeMenu = document.getElementById('theme-menu');
             const themeBtns = document.querySelectorAll('.theme-btn');
-
-            // 设置默认主题为宝石蓝
-            document.documentElement.setAttribute('data-theme', 'blue');
 
             // 主题切换按钮点击事件 - 展开/收起菜单
             themeToggleBtn.addEventListener('click', function () {
@@ -717,6 +831,62 @@
                 });
             });
         });
+
+        // 计算按钮点击事件
+        document.getElementById('calculate-btn').addEventListener('click', function () {
+            // 获取用户输入的日期
+            const startDateInput = document.getElementById('start-date');
+            const startDate = new Date(startDateInput.value);
+            const currentDate = new Date();
+
+            // 验证日期输入
+            if (isNaN(startDate.getTime())) {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '请选择一个有效的日期！';
+                resultDiv.className = 'result error';
+                // 清空特殊日期结果
+                document.getElementById('special-dates-result').innerHTML = '';
+                return;
+            }
+
+            // 移除时间部分，只比较日期
+            startDate.setHours(0, 0, 0, 0);
+            currentDate.setHours(0, 0, 0, 0);
+
+            // 计算毫秒差，然后转换为天数
+            const timeDiff = currentDate - startDate;
+            const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+            // 显示结果
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `今天是 ${startDateInput.value} 的第 <strong>${dayDiff}</strong> 天。`;
+            resultDiv.className = 'result';
+
+            // 计算特殊日期
+            calculateSpecialDates(startDate, startDateInput.value);
+        });
+
+        // 计算特殊日期的函数
+        function calculateSpecialDates(startDate, startDateStr) {
+            // 获取特殊天数
+            const specialDays = loadSpecialDays();
+            let resultHTML = '';
+
+            // 遍历计算每个特殊日期
+            specialDays.forEach(day => {
+                // 创建起始日期的副本，避免修改原日期
+                const targetDate = new Date(startDate);
+                // 增加指定天数
+                targetDate.setDate(targetDate.getDate() + day);
+                // 格式化日期为YYYY-MM-DD
+                const formattedDate = targetDate.toISOString().split('T')[0];
+                // 添加到结果HTML
+                resultHTML += `<div>${startDateStr} 的第 ${day} 天是：<strong>${formattedDate}</strong></div>`;
+            });
+
+            // 显示特殊日期结果
+            document.getElementById('special-dates-result').innerHTML = resultHTML;
+        }
     </script>
 </body>
 
