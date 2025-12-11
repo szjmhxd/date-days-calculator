@@ -503,11 +503,7 @@
         <div class="input-group" style="margin-bottom: 25px;">
             <label for="start-date"
                 style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--title-color);">请选择起始日期：</label>
-            <div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day" style="width: 100%;">
-                <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
-                <input type="text" id="start-date" autocomplete="off" placeholder="选择日期"
-                    class="c-datepicker-data-input only-date" value="">
-            </div>
+            <input type="date" id="start-date" style="width: 100%; padding: 14px 16px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 16px; font-family: inherit; transition: all 0.3s ease; background: var(--input-bg); color: var(--text-color);">
         </div>
 
         <!-- 默认日期选择区域 - 高度统一 -->
@@ -553,10 +549,7 @@
         </div>
     </div>
 
-    <!-- 引入jQuery和日期选择器JS -->
-    <script src="202303100952/js/plugins/jquery.js"></script>
-    <script src="202303100952/js/plugins/moment.min.js"></script>
-    <script src="202303100952/js/datepicker.all.js"></script>
+    
 
     <script>
         // 从本地存储加载默认日期
@@ -614,22 +607,6 @@
 
             // 计算本年已过天数
             calculateDaysPassedThisYear();
-
-            // 初始化日期选择器
-            $('.J-datepicker-day').datePicker({
-                hasShortcut: true,
-                format: 'YYYY-MM-DD',
-                shortcutOptions: [{
-                    name: '今天',
-                    day: '0'
-                }, {
-                    name: '昨天',
-                    day: '-1'
-                }, {
-                    name: '一周前',
-                    day: '-7'
-                }]
-            });
         }
 
         // 页面加载时初始化
